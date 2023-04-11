@@ -13,3 +13,7 @@ int hash_first(const char* key, int size);
 int hash_len(const char* key, int size);
 
 int hash_sum(const char* key, int size);
+
+int hash_rotl(const char* key, int size);
+
+int hash_rotr(const char* key, int size);

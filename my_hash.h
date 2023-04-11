@@ -5,7 +5,6 @@
 #include <string.h>
 #include <assert.h>
 
-const int BUFF_SIZE = 100;
 const int TABLE_SIZE = 20;
 
 typedef struct _hash_node
