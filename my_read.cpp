@@ -59,6 +59,7 @@ char** separate_text(char* text, char sep, int* lines_found)
             {
                 n_lines *= REALLOC_FACTOR;
                 ans = (char**) realloc(ans, n_lines * sizeof(char*));
+                assert(ans);
             }
         }
 
@@ -68,4 +69,26 @@ char** separate_text(char* text, char sep, int* lines_found)
     if(lines_found) *lines_found = n_read;
 
     return ans;
+}
+
+char** prepare_text(const char* filename, int* lines_found, char** text)
+{
+    assert(filename);
+    assert(lines_found);
+    assert(text);
+
+    FILE* file = fopen(filename, "r");
+    assert(file);
+
+    char* txt = read_text(file);
+
+    int n_lines = 0;
+    char** strings = separate_text(txt, '\n', &n_lines);
+
+    fclose(file);
+
+    *lines_found = n_lines;
+    *text = txt;
+
+    return strings;
 }

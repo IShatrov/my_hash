@@ -2,17 +2,15 @@
 #include "hash_functions.h"
 #include "my_read.h"
 
+const char* FILENAME = "shakespeare.txt";
+
 int main()
 {
-    FILE* file = fopen("shakespeare.txt", "r");
+    int lines_found = 0;
+    char* text;
+    char** strings = prepare_text(FILENAME, &lines_found, &text);
 
-    char* text = read_text(file);
-    int n_lines = 0;
-    char** strings = separate_text(text, '\n', &n_lines);
-
-    printf("lines found: %d\n", n_lines);
-
-    for(int i = 0; i < n_lines; i++) 
+    for(int i = 0; i < lines_found; i++) 
     {
         char* t = strings[i];
         printf("%d. %s\n", i, t);
@@ -20,7 +18,6 @@ int main()
 
     free(text);
     free(strings);
-    fclose(file);
 
     // hash_table table;
     // hash_ctor(&table, TABLE_SIZE, &hash_rotr);
