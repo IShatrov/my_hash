@@ -104,3 +104,82 @@ void hash_dtor(hash_table* table)
 
     return;
 }
+
+int hash_count(hash_table* table, int index)
+{
+    assert_table(table);
+    assert(index < table->size);
+
+    int ans = 0;
+
+    if(!(table->data[index]))
+    {
+        ans = 0;
+    }
+    else
+    {
+        ans = 1;
+
+        hash_node* curr = table->data[index];
+        hash_node* next = (table->data[index])->next;
+
+        while(next)
+        {
+            curr = curr->next;
+            next = curr->next;
+
+            ans++;
+        }
+    }
+
+    return ans;
+}
+
+void do_tests(int n_lines, const char** words, const char* output_filename)
+{
+    assert(n_lines);
+    assert(words);
+    assert(output_filename);
+
+    FILE* output = fopen(output_filename, "w");
+    assert(output);
+
+    test_hash(&hash_const, "const", n_lines, words, output);
+    test_hash(&hash_first, "first", n_lines, words, output);
+    test_hash(&hash_len, "len", n_lines, words, output);
+    test_hash(&hash_sum, "sum", n_lines, words, output);
+    test_hash(&hash_rotl, "rotl", n_lines, words, output);
+    test_hash(&hash_rotr, "rotr", n_lines, words, output);
+
+    fclose(output);
+
+    return;
+}
+
+void test_hash(int (*hash)(const char* key, int size), const char* name, int n_lines, const char** words, FILE* output)
+{
+    assert(hash);
+    assert(name);
+    assert(n_lines);
+    assert(words);
+    assert(output);
+
+    fprintf(output, "%s; ", name);
+
+    hash_table table;
+    hash_ctor(&table, TABLE_SIZE, hash);
+
+    for(int i = 0; i < n_lines; i++)
+    {
+        hash_insert(&table, words[i]);
+    }
+
+    for(int i = 0; i < TABLE_SIZE; i++)
+    {
+        fprintf(output, "%d; ", hash_count(&table, i));
+    }
+
+    fputc('\n', output);
+
+    hash_dtor(&table);
+}

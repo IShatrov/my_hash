@@ -7,6 +7,6 @@ int get_file_size(FILE* stream);
 
 char* read_text(FILE* stream);
 
-char** separate_text(char* text, char sep, int* lines_found);
+const char** separate_text(char* text, char sep, int* lines_found);
 
-char** prepare_text(const char* filename, int* lines_found, char** text);
+const char** prepare_text(const char* filename, int* lines_found, char** text);

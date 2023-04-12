@@ -5,6 +5,8 @@
 #include <string.h>
 #include <assert.h>
 
+#include "hash_functions.h"
+
 const int TABLE_SIZE = 20;
 
 typedef struct _hash_node
@@ -29,3 +31,9 @@ void hash_insert(hash_table* table, const char* key);
 int hash_find(hash_table* table, const char* key);
 
 void hash_dtor(hash_table* table);
+
+int hash_count(hash_table* table, int index);
+
+void do_tests(int n_lines, const char** words, const char* output_filename);
+
+void test_hash(int (*hash)(const char* key, int size), const char* name, int n_lines, const char** words, FILE* output);

@@ -32,13 +32,13 @@ char* read_text(FILE* stream)
     return text;
 }
 
-char** separate_text(char* text, char sep, int* lines_found)
+const char** separate_text(char* text, char sep, int* lines_found)
 {
     assert(text);
 
     int n_lines = DEF_N_LINES;
 
-    char** ans = (char**) calloc(n_lines, sizeof(char*));
+    const char** ans = (const char**) calloc(n_lines, sizeof(char*));
     assert(ans);
 
     int n_read = 0;
@@ -58,7 +58,7 @@ char** separate_text(char* text, char sep, int* lines_found)
             if(n_read == n_lines)  
             {
                 n_lines *= REALLOC_FACTOR;
-                ans = (char**) realloc(ans, n_lines * sizeof(char*));
+                ans = (const char**) realloc(ans, n_lines * sizeof(char*));
                 assert(ans);
             }
         }
@@ -71,7 +71,7 @@ char** separate_text(char* text, char sep, int* lines_found)
     return ans;
 }
 
-char** prepare_text(const char* filename, int* lines_found, char** text)
+const char** prepare_text(const char* filename, int* lines_found, char** text)
 {
     assert(filename);
     assert(lines_found);
@@ -83,7 +83,7 @@ char** prepare_text(const char* filename, int* lines_found, char** text)
     char* txt = read_text(file);
 
     int n_lines = 0;
-    char** strings = separate_text(txt, '\n', &n_lines);
+    const char** strings = separate_text(txt, '\n', &n_lines);
 
     fclose(file);
 
